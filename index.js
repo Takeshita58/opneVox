@@ -82,7 +82,7 @@ app.get('/watch',async(req, res) => {
         let result = await tokenDataArray.filter(itemA => 
             _array[0].array.indexOf(itemA) == -1
         );
-
+        console.log(result)
         await result.map(async(item,index) => {
             const [files] = await bucket.getFiles({prefix: `data/${item.tokenID}.json`})
             if(files.length > 0){
