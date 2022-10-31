@@ -59,7 +59,7 @@ const contract = new web3.eth.Contract(abi,'0x2F35783908cBda09e715608824D097fe2b
 const _projectId = process.env.PROJECT_ID
 const tokenURL = process.env.TOKEN_URL;
 const _Name = process.env.BUCKET_NAME
-const storage = new Storage({projectId: _projectId, credentials: JSON.parse(process.env.GOOGLE_SERVICE_KEY)})
+const storage = new Storage({credentials: JSON.parse(process.env.GOOGLE_SERVICE_KEY)})
 const bucket = storage.bucket(_Name);
 const app = express()
 
