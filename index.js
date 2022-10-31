@@ -27,4 +27,9 @@ app.get('/watch',async(req, res) => {
     const _totalsupply = await contract.methods.totalSupply().call();
     res.send(_totalsupply + ' : ' + 'watch OpneVox!')
 })
+app.get('/',async(req, res) => {
+    console.log("watch OpneVox!")
+    const _totalsupply = await contract.methods.totalSupply().call();
+    res.send(_totalsupply + ' : ' + 'watch OpneVox!')
+})
 app.listen(process.env.PORT || 3000)
