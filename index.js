@@ -1,7 +1,7 @@
 const express = require('express')
 const Web3 = require('web3')
 require('dotenv').config();
-import { connectToDatabase } from "/libs/mongodb";
+const connectToDatabase = require('/libs/mongodb');
 
 const abi = [{
     "inputs": [],
