@@ -1,7 +1,44 @@
 const express = require('express')
 const Web3 = require('web3')
+const {MongoClient} = require('mongodb')
+const { Storage } = require('@google-cloud/storage')
 require('dotenv').config();
-const connectToDatabase = require('mongodb');
+
+
+const MONGODB_URI = process.env.MONGODB_URI;
+console.log(process.env.MONGODB_URI)
+// check the MongoDB URI
+if (!MONGODB_URI) {
+  throw new Error("Define the MONGODB_URI environmental variable");
+}
+
+let cachedClient= null;
+let cachedDb = null;
+
+async function connectToDatabase() {
+  // check the cached.
+  if (cachedClient && cachedDb) {
+    // load from cache
+    return {
+      client: cachedClient,
+      db: cachedDb,
+    };
+  }
+
+  // Connect to cluster
+  let client = new MongoClient(MONGODB_URI);
+  await client.connect();
+  let db = client.db();
+
+  // set cache
+  cachedClient = client;
+  cachedDb = db;
+
+  return {
+    client: cachedClient,
+    db: cachedDb,
+  };
+}
 
 const abi = [{
     "inputs": [],
@@ -16,20 +53,59 @@ const abi = [{
     "stateMutability": "view",
     "type": "function"
 }]
-
+console.log("test1 :" + process.env.ALCHEMY_HTTP)
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ALCHEMY_HTTP))
 const contract = new web3.eth.Contract(abi,'0x2F35783908cBda09e715608824D097fe2b50a4df')
-/*const { db } = await connectToDatabase();
-let _obj = await db.collection("count").find({ totalsupply: _address}).toArray();*/
+const _projectId = process.env.PROJECT_ID
+const tokenURL = process.env.TOKEN_URL;
+const _Name = process.env.BUCKET_NAME
+const storage = new Storage({projectId: _projectId, credentials: JSON.parse(process.env.GOOGLE_SERVICE_KEY)})
+const bucket = storage.bucket(_Name);
 const app = express()
+
 app.get('/watch',async(req, res) => {
-    console.log("watch OpneVox!")
+    const _reqdata = req;
+    const { db } = await connectToDatabase();
+    let _obj = await db.collection("count").find({},{totalSupply:1}).toArray();
+    const _totalSpully = parseInt(_obj[0].totalSupply,10);
+    const _dbId = _obj[0]._id;
+    console.log(storage)
     const _totalsupply = await contract.methods.totalSupply().call();
-    res.send(_totalsupply + ' : ' + 'watch OpneVox!')
+    let _getData;
+
+    if(_totalSpully < _totalsupply){
+        const tokenTx = await fetch(tokenURL);
+        const tokenData = await tokenTx.json();
+        const tokenDataArray = tokenData.result;
+        let _array = await db.collection("array").find({},{array:1}).toArray();
+        let _arrayId = _array[0]._id;
+        let result = await tokenDataArray.filter(itemA => 
+            _array[0].array.indexOf(itemA) == -1
+        );
+
+        await result.map(async(item,index) => {
+            const [files] = await bucket.getFiles({prefix: `data/$(item.tokenID).json`})
+            if(files.length > 0){
+                
+            }else{
+                console.log(item);
+            }
+        })
+
+        _getData = tokenDataArray.length;
+        const result1 = await db.collection("count").updateOne({
+            _id: _dbId
+        }, {
+            $set: {
+                'totalSupply': _totalsupply
+            },
+        })
+    }
+    res.send(_totalsupply + ' : ' + _getData + ' : ' + 'watch OpneVox!')
 })
+
 app.get('/',async(req, res) => {
-    console.log("watch OpneVox!")
-    const _totalsupply = await contract.methods.totalSupply().call();
-    res.send(_totalsupply + ' : ' + 'watch OpneVox!')
+    console.log("watching Now!")
+    res.send('watching Now!')
 })
 app.listen(process.env.PORT || 3000)
