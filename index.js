@@ -53,7 +53,7 @@ const abi = [{
     "stateMutability": "view",
     "type": "function"
 }]
-console.log("test1 :" + process.env.ALCHEMY_HTTP)
+//console.log("test1 :" + process.env.ALCHEMY_HTTP)
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ALCHEMY_HTTP))
 const contract = new web3.eth.Contract(abi,'0x2F35783908cBda09e715608824D097fe2b50a4df')
 const _projectId = process.env.PROJECT_ID
@@ -69,7 +69,7 @@ app.get('/watch',async(req, res) => {
     let _obj = await db.collection("count").find({},{totalSupply:1}).toArray();
     const _totalSpully = parseInt(_obj[0].totalSupply,10);
     const _dbId = _obj[0]._id;
-    console.log(storage)
+    //console.log(storage)
     const _totalsupply = await contract.methods.totalSupply().call();
     let _getData;
 
