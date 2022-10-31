@@ -6,7 +6,7 @@ require('dotenv').config();
 
 
 const MONGODB_URI = process.env.MONGODB_URI;
-console.log(process.env.MONGODB_URI)
+//console.log(process.env.MONGODB_URI)
 // check the MongoDB URI
 if (!MONGODB_URI) {
   throw new Error("Define the MONGODB_URI environmental variable");
