@@ -66,9 +66,9 @@ const storage = new Storage({
     client_email: process.env.EMAIL,
     private_key: _cre2
 })
-console.log(storage)
+//console.log(storage)
 const bucket = storage.bucket(_Name);
-console.log(_cre2)
+//console.log(_cre2)
 const app = express()
 
 app.get('/watch',async(req, res) => {
@@ -90,7 +90,7 @@ app.get('/watch',async(req, res) => {
         let result = await tokenDataArray.filter(itemA => 
             _array[0].array.indexOf(itemA) == -1
         );
-        console.log("get array etherscan : " + result.length)
+        //console.log("get array etherscan : " + result.length)
         await result.map(async(item,index) => {
             //console.log(item.tokenID)
             await bucket.getFiles(JSON.parse({ prefix: `data/203.json`})).then(data => {
