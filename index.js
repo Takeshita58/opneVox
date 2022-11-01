@@ -60,11 +60,13 @@ const contract = new web3.eth.Contract(abi,'0x2F35783908cBda09e715608824D097fe2b
 const _projectId = process.env.PROJECT_ID
 const tokenURL = process.env.TOKEN_URL;
 const _Name = process.env.BUCKET_NAME
-const _cre = process.env.GOOGLE_JSON_KEY.replace(/\\n/g, "\n")
+const _cre = process.env.GOOGLE_JSON_KEY.replace(/\s+/g, '')
+const _cre2 = _cre.replace(/\\n/g, '')
 const storage = new Storage({ 
-    credentials: _cre
+    credentials: _cre2
 })
 const bucket = storage.bucket(_Name);
+console.log(_cre2)
 const app = express()
 
 app.get('/watch',async(req, res) => {
