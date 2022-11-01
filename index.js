@@ -93,7 +93,7 @@ app.get('/watch',async(req, res) => {
         await result.map(async(item,index) => {
             console.log(item.tokenID)
             const [files] = await bucket.getFiles({prefix:`data/${item.tokenID}.json`})
-            console.log("get item : " + item.tokenID + " " + files)
+            console.log("get item : " + item.tokenID + " " + files[0])
             if(files.length > 0){
                 console.log("1" + item.tokenID);
             }else{
