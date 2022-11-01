@@ -74,7 +74,7 @@ app.get('/watch',async(req, res) => {
     const _totalsupply = await contract.methods.totalSupply().call();
     let _getData;
 
-    if(_totalSpully < _totalsupply){
+    //if(_totalSpully < _totalsupply){
         const tokenTx = await fetch(tokenURL);
         const tokenData = await tokenTx.json();
         const tokenDataArray = tokenData.result;
@@ -101,7 +101,7 @@ app.get('/watch',async(req, res) => {
                 'totalSupply': _totalsupply
             },
         })
-    }
+    //}
     res.send(_totalsupply + ' : ' + _getData + ' : ' + 'watch OpneVox!')
 })
 
