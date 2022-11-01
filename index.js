@@ -63,7 +63,7 @@ const _Name = process.env.BUCKET_NAME
 const storage = new Storage({ 
     authClient: new GoogleAuth({
         credentials: {
-            client_email: process.envEMAIL, 
+            client_email: process.env.EMAIL, 
             private_key: process.env.KEY.replace(/\\n/g, "\n")
         }
     })
