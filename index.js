@@ -66,6 +66,7 @@ const storage = new Storage({
     client_email: process.env.EMAIL,
     private_key: _cre2
 })
+console.log(storage)
 const bucket = storage.bucket(_Name);
 console.log(_cre2)
 const app = express()
