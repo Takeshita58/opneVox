@@ -93,7 +93,7 @@ app.get('/watch',async(req, res) => {
         //console.log("get array etherscan : " + result.length)
         await result.map(async(item,index) => {
             //console.log(item.tokenID)
-            await bucket.getFiles(JSON.parse({ "prefix": "data/203.json"})).then(data => {
+            await bucket.getFiles({ prefix: "data/203.json"}).then(data => {
         let files = data[0];
         files.forEach(file => {
             console.log(file.name);
