@@ -61,12 +61,7 @@ const _projectId = process.env.PROJECT_ID
 const tokenURL = process.env.TOKEN_URL;
 const _Name = process.env.BUCKET_NAME
 const storage = new Storage({ 
-    authClient: new GoogleAuth({
-        credentials: {
-            client_email: process.env.EMAIL, 
-            private_key: process.env.KEY.replace(/\\n/g, "\n")
-        }
-    })
+    credentials: JSON.parse(process.env.GOOGLE_JSON_KEY.replace(/\\n/g, "\n"))
 })
 const bucket = storage.bucket(_Name);
 const app = express()
