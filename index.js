@@ -84,6 +84,10 @@ app.get('/watch',async(req, res) => {
     let _getData;
 
     //if(_totalSpully < _totalsupply){
+        const [buckets] = await storage.getBuckets();
+  buckets.forEach((bucket) => console.log(bucket.name));
+//console.log(storage)
+const bucket = await storage.bucket(_Name);
         const tokenTx = await fetch(tokenURL);
         const tokenData = await tokenTx.json();
         const tokenDataArray = tokenData.result;
