@@ -92,8 +92,9 @@ app.get('/watch',async(req, res) => {
         );
         console.log("get array etherscan : " + result.length)
         await result.map(async(item,index) => {
-            console.log("get item : " + item)
+            
             const [files] = await bucket.getFiles({prefix:`data/${item.tokenID}.json`})
+            console.log("get item : " + item.tokenID + " " + files)
             if(files.length > 0){
                 console.log("1" + item.tokenID);
             }else{
