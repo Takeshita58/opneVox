@@ -66,11 +66,7 @@ const storage = new Storage({
     client_email: process.env.EMAIL,
     private_key: _cre2
 })
-const [buckets] = await storage.getBuckets();
-  buckets.forEach((bucket) => console.log(bucket.name));
-//console.log(storage)
-const bucket = storage.bucket(_Name);
-//console.log(_cre2)
+
 const app = express()
 
 app.get('/watch',async(req, res) => {
