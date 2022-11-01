@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "OpenVox watch post",
   "main": "index.js",
-  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,6 +20,7 @@
     "@google-cloud/storage": "^6.6.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "google-auth-library": "^8.6.0",
     "mongodb": "^4.11.0",
     "web3": "^1.8.0"
   }

@@ -2,6 +2,7 @@ const express = require('express')
 const Web3 = require('web3')
 const {MongoClient} = require('mongodb')
 const { Storage } = require('@google-cloud/storage')
+const { GoogleAuth } = require('google-auth-library')
 require('dotenv').config();
 
 
@@ -59,7 +60,7 @@ const contract = new web3.eth.Contract(abi,'0x2F35783908cBda09e715608824D097fe2b
 const _projectId = process.env.PROJECT_ID
 const tokenURL = process.env.TOKEN_URL;
 const _Name = process.env.BUCKET_NAME
-const storage = new Storage({credentials: JSON.parse(process.env.GOOGLE_SERVICE_KEY)})
+const storage = new Storage({ authClient: new GoogleAuth({credentials: JSON.parse(process.env.GOOGLE_SERVICE_KEY)})})
 const bucket = storage.bucket(_Name);
 const app = express()
 
@@ -82,8 +83,9 @@ app.get('/watch',async(req, res) => {
         let result = await tokenDataArray.filter(itemA => 
             _array[0].array.indexOf(itemA) == -1
         );
-        console.log(result)
+        //console.log(result)
         await result.map(async(item,index) => {
+            console.log(item.tokenID);
             const [files] = await bucket.getFiles({prefix: `data/${item.tokenID}.json`})
             if(files.length > 0){
                 
