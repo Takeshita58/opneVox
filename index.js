@@ -96,7 +96,7 @@ app.get('/watch',async(req, res) => {
             await bucket.getFiles({ prefix: "data/203.json"}).then(data => {
         let files = data[0];
         files.forEach(file => {
-            console.log(file.name);
+            console.log(files.name);
         });
     });
             /*console.log(files)
