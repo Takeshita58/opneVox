@@ -93,14 +93,19 @@ app.get('/watch',async(req, res) => {
         console.log("get array etherscan : " + result.length)
         await result.map(async(item,index) => {
             console.log(item.tokenID)
-            const files = await bucket.getFiles(JSON.parse({ prefix: `data/${item.tokenID}.json`}));
-            console.log(files)
+            await bucket.getFiles(/*JSON.parse({ prefix: `data/${item.tokenID}.json`})*/).then(data => {
+        let files = data[0];
+        files.forEach(file => {
+            console.log(file.name);
+        });
+    });
+            /*console.log(files)
             console.log("get item : " + item.tokenID + " " + files)
             if(files.length > 0){
                 console.log("1" + item.tokenID);
             }else{
                 console.log("0" + item.tokenID);
-            }
+            }*/
         })
 
         _getData = tokenDataArray.length;
