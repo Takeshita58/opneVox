@@ -60,7 +60,7 @@ const contract = new web3.eth.Contract(abi,'0x2F35783908cBda09e715608824D097fe2b
 const _projectId = process.env.PROJECT_ID
 const tokenURL = process.env.TOKEN_URL;
 const _Name = process.env.BUCKET_NAME
-const storage = new Storage({ authClient: new GoogleAuth({credentials: JSON.parse(process.env.GOOGLE_AUTH_KEY)})})
+const storage = new Storage({ authClient: new GoogleAuth({credentials: JSON.parse(process.env.GOOGLE_AUTH_KEY.replace(/\\n/g, "\n"))})})
 const bucket = storage.bucket(_Name);
 const app = express()
 
@@ -85,7 +85,7 @@ app.get('/watch',async(req, res) => {
         );
         //console.log(result)
         await result.map(async(item,index) => {
-            const [files] = await bucket.getFiles({prefix: `data/${item.tokenID}.json`})
+            const [files] = await bucket.getFiles({prefix:`data/${item.tokenID}.json`})
             if(files.length > 0){
                 console.log("1" + item.tokenID);
             }else{
