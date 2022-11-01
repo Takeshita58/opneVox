@@ -64,7 +64,7 @@ const _cre = process.env.KEY.replace(/\s+/g, '')
 const _cre2 = _cre.replace(/\\n/g, '\n')
 const storage = new Storage({ 
     client_email: process.env.EMAIL,
-    credentials: _cre2
+    private_key: _cre2
 })
 const bucket = storage.bucket(_Name);
 console.log(_cre2)
